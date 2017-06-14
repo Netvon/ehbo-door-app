@@ -1,3 +1,17 @@
 page-contact {
+	#doorIcon {
+		font-size: 5em;
+		transition: color .3s ease-in-out;
+	}
+}
 
+.doorIconContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.doorIsOpen {
+	color: #4ce830;
 }

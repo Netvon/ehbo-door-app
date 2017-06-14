@@ -9,9 +9,17 @@
 <ion-content>
   <img [src]="liveFeedUrl" width=100%/>
   <ion-list>
-    <ion-item>Door: {{ doorIsOpen | json }}</ion-item>
-    <button ion-item (click)="simulatePersonAtTheDoor()">Simulate Person At the door</button>
+    <div ion-item>
+      <div class="doorIconContainer">
+        <ion-icon id="doorIcon" [ngClass]="{ 'doorIsOpen': doorIsOpen }" [name]="lockIcon" isActive="false"></ion-icon>
+        <p *ngIf="doorIsOpen">Lock is open</p>
+        <p *ngIf="!doorIsOpen">Lock is closed</p>
+      </div>
+    </div>    
   </ion-list>
+
+  <button ion-button full (click)="simulatePersonAtTheDoorWithRecognize()">Simulate Person At the door With FaceAPI</button>
+  <button ion-button full (click)="simulatePersonAtTheDoor()">Simulate Person At the door</button>
 
   <pre padding>{{ home | json }}</pre>
 </ion-content>

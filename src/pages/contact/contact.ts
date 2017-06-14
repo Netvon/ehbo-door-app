@@ -13,6 +13,14 @@ export class ContactPage {
 	liveFeedUrl: string = ''
 	doorIsOpen = false
 
+	get lockIcon() {
+		if ( this.doorIsOpen ) {
+			return 'unlock'
+		}
+
+		return 'lock'
+	}
+
 	constructor(
 		public navCtrl: NavController,
 		private navParams: NavParams,
@@ -38,6 +46,24 @@ export class ContactPage {
 	}
 
 	simulatePersonAtTheDoor() {
+		const loader = this.loadingCtrl.create({
+			content: 'Please wait...'
+		})
+
+		loader.present()
+
+		this.homes.notifyDoor(this.home._id).subscribe(message => {
+			loader.dismiss()
+
+			this.alertCtrl.create({
+				title: 'Success',
+				subTitle: message.msg,
+				buttons: ['OK']
+			}).present()
+		})
+	}
+
+	simulatePersonAtTheDoorWithRecognize() {
 		const loader = this.loadingCtrl.create({
 			content: 'Please wait...'
 		})
