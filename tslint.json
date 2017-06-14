@@ -3,6 +3,14 @@
     "no-duplicate-variable": true,
     "no-unused-variable": [
       true
+    ],
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "quotemark": [
+      true,
+      "single"
     ]
   },
   "rulesDirectory": [

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs/Observable'
 
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/timeout'
 
 @Injectable()
 export class HomeService {
@@ -14,27 +15,31 @@ export class HomeService {
 		return this.http.get(`${this.baseUrl}/homes`).map(res => res.json() as IHome[])
 	}
 
-	getHomeLiveFeed( homeId: string ): Observable<string> {
+	getHomeLiveFeed(homeId: string): Observable<string> {
 		return this.http.get(`${this.baseUrl}/homes/${homeId}/live-feed`).map(res => res.json().url)
 	}
 
-	getHomeDoorIsOpen( homeId: string ): Observable<boolean> {
+	getHomeDoorIsOpen(homeId: string): Observable<boolean> {
 		return this.http.get(`${this.baseUrl}/homes/${homeId}/door`).map(res => res.json().doorIsOpen)
 	}
 
-	openDoor( homeId: string ) : Observable<{ _id: string, isDoorOpen: boolean }> {
+	openDoor(homeId: string): Observable<{ _id: string, isDoorOpen: boolean }> {
 		return this.http.post(`${this.baseUrl}/homes/${homeId}/door`, { duration: 5 })
-						.map(res => res.json())
+			.map(res => res.json())
 	}
 
-	notifyDoor( homeId: string, personId: string ) : Observable<any> {
+	notifyDoor(homeId: string, personId: string = null): Observable<any> {
 		return this.http.post(`${this.baseUrl}/homes/${homeId}/notify-door`, { personId })
-						.map(res => res.json())
+			.map(res => res.json())
 	}
 
-	recognizePerson( homeId: string ) {
+	recognizePerson(homeId: string) {
 		return this.http.get(`${this.baseUrl}/homes/${homeId}/recognize-person`)
-						.map(res => res.json() as IPerson[])
+			.timeout(30000)
+			.map(res => {
+				console.log(res)
+				return res.json() as IPerson[]
+			})
 	}
 }
 

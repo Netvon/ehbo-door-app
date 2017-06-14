@@ -7,11 +7,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-img [src]="liveFeedUrl"></ion-img>
+  <img [src]="liveFeedUrl" width=100%/>
   <ion-list>
     <ion-item>Door: {{ doorIsOpen | json }}</ion-item>
-    <button ion-item>Simulate Person At the door</button>
+    <button ion-item (click)="simulatePersonAtTheDoor()">Simulate Person At the door</button>
   </ion-list>
 
-  <pre>{{ home | json }}</pre>
+  <pre padding>{{ home | json }}</pre>
 </ion-content>
