@@ -2,13 +2,13 @@ import { Component } from '@angular/core'
 import { NavController, LoadingController, Loading } from 'ionic-angular'
 import { HomeService, IHome } from '../../app/services/home.service'
 import { Observable } from 'rxjs/Observable'
-import { ContactPage } from '../contact/contact'
+import { HomeDetailPage } from '../home-detail/home-detail'
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-home-overview',
+  templateUrl: 'home-overview.html'
 })
-export class HomePage {
+export class HomeOverviewPage {
 
   public homes: Observable<IHome[]>
   private loader: Loading
@@ -30,6 +30,6 @@ export class HomePage {
   }
 
   viewHome(home: IHome) {
-    this.navCtrl.push(ContactPage, home)
+    this.navCtrl.push(HomeDetailPage, home)
   }
 }

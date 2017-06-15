@@ -1,13 +1,13 @@
 import { Component } from '@angular/core'
 import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular'
-import { IHome, HomeService } from '../../app/services/home.service'
-import { SocketService } from '../../app/services/socket.service'
+
+import { IHome, HomeService, SocketService } from '../../app/services'
 
 @Component({
-	selector: 'page-contact',
-	templateUrl: 'contact.html'
+	selector: 'page-home-detail',
+	templateUrl: 'home-detail.html'
 })
-export class ContactPage {
+export class HomeDetailPage {
 
 	home: IHome
 	liveFeedUrl: string = ''
@@ -70,16 +70,34 @@ export class ContactPage {
 
 		loader.present()
 
-		this.homes.recognizePerson(this.home._id).subscribe(persons => {
+		this.homes.recognizePerson(this.home._id).subscribe(response => {
 
-			console.log(persons)
+			if ( response.hasOwnProperty('error') ) {
+				this.alertCtrl.create({
+					title: 'Error',
+					subTitle: response['error'],
+					buttons: ['OK']
+				}).present()
 
-			if (!persons) {
+				loader.dismiss()
+				return
+			}
+
+			console.log(response)
+
+			if (response.persons.length === 0) {
 				this.homes.notifyDoor(this.home._id)
 			} else {
-				for (const person of persons) {
+				for (const person of response.persons) {
 					this.homes.notifyDoor(this.home._id, person._id)
 				}
+				
+
+				this.alertCtrl.create({
+					title: 'Found',
+					subTitle: response.persons.map(x => `${x.firstName} ${x.lastName}`).join('\n\r'),
+					buttons: ['OK']
+				}).present()
 			}
 
 			loader.dismiss()

@@ -38,7 +38,7 @@ export class HomeService {
 			.timeout(30000)
 			.map(res => {
 				console.log(res)
-				return res.json() as IPerson[]
+				return res.json() as IVisit
 			})
 	}
 }
@@ -57,4 +57,11 @@ export interface IPerson {
 	firstName: string
 	lastName: string
 	description: string
+}
+
+export interface IVisit {
+	mimetype: string
+	persons: IPerson[]
+	takeOn: Date
+	_id: string
 }

@@ -9,8 +9,7 @@ import { pages }from '../pages'
 
 import { StatusBar } from '@ionic-native/status-bar'
 import { SplashScreen } from '@ionic-native/splash-screen'
-import { SocketService } from './services/socket.service'
-import { HomeService } from './services/home.service'
+import { services } from './services'
 
 @NgModule({
 	declarations: [
@@ -31,8 +30,7 @@ import { HomeService } from './services/home.service'
 		StatusBar,
 		SplashScreen,
 		{ provide: ErrorHandler, useClass: IonicErrorHandler },
-		SocketService,
-		HomeService
+		...services
 	]
 })
 export class AppModule { }

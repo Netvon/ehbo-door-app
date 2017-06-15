@@ -1,9 +1,9 @@
 import { TabsPage } from './tabs/tabs'
-import { HomePage } from './home/home'
-import { ContactPage } from './contact/contact'
+import { HomeOverviewPage } from './home-overview/home-overview'
+import { HomeDetailPage } from './home-detail/home-detail'
 
 export const pages = [
 	TabsPage,
-	HomePage,
-	ContactPage
+	HomeOverviewPage,
+	HomeDetailPage
 ]
