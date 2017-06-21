@@ -1,4 +1,4 @@
-import { Http } from '@angular/http'
+import { Http, Headers } from '@angular/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs/Observable'
 
@@ -11,30 +11,38 @@ export class HomeService {
 
 	constructor(private http: Http) { }
 
+	get options() {
+		return { 
+			headers: new Headers({
+				Authorization: `JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJET09SX0FQUCIsImlhdCI6MTQ5ODA0NDQ4NiwiZXhwIjoxNDk4OTA4NDg2fQ.K_QQO0AGr0QbMqRic5ok7Aq7IOGJtAzGiIQbKDSn5ZI`
+			})
+		}
+	}
+
 	getHomes(): Observable<IHome[]> {
 		return this.http.get(`${this.baseUrl}/homes`).map(res => res.json() as IHome[])
 	}
 
 	getHomeLiveFeed(homeId: string): Observable<string> {
-		return this.http.get(`${this.baseUrl}/homes/${homeId}/live-feed`).map(res => res.json().url)
+		return this.http.get(`${this.baseUrl}/homes/${homeId}/live-feed`, { ...this.options }).map(res => res.json().url)
 	}
 
 	getHomeDoorIsOpen(homeId: string): Observable<boolean> {
-		return this.http.get(`${this.baseUrl}/homes/${homeId}/door`).map(res => res.json().doorIsOpen)
+		return this.http.get(`${this.baseUrl}/homes/${homeId}/door`, { ...this.options }).map(res => res.json().doorIsOpen)
 	}
 
 	openDoor(homeId: string): Observable<{ _id: string, isDoorOpen: boolean }> {
-		return this.http.post(`${this.baseUrl}/homes/${homeId}/door`, { duration: 5 })
+		return this.http.post(`${this.baseUrl}/homes/${homeId}/door`, { duration: 5 }, { ...this.options })
 			.map(res => res.json())
 	}
 
 	notifyDoor(homeId: string, personId: string = null): Observable<any> {
-		return this.http.post(`${this.baseUrl}/homes/${homeId}/notify-door`, { personId })
+		return this.http.post(`${this.baseUrl}/homes/${homeId}/notify-door`, { personId }, { ...this.options })
 			.map(res => res.json())
 	}
 
 	recognizePerson(homeId: string) {
-		return this.http.get(`${this.baseUrl}/homes/${homeId}/recognize-person`)
+		return this.http.get(`${this.baseUrl}/homes/${homeId}/recognize-person`, { ...this.options })
 			.timeout(30000)
 			.map(res => {
 				console.log(res)
