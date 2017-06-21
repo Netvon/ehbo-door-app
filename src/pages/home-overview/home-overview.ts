@@ -28,7 +28,7 @@ export class HomeOverviewPage {
     this.homes = this.homeService.getHomes()
     this.homes.subscribe(x => this.loader.dismiss())
   }
-
+  
   viewHome(home: IHome) {
     this.navCtrl.push(HomeDetailPage, home)
   }

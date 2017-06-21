@@ -12,6 +12,7 @@ export class HomeDetailPage {
 	home: IHome
 	liveFeedUrl: string = ''
 	doorIsOpen = false
+	users: any[]
 
 	get lockIcon() {
 		if ( this.doorIsOpen ) {
@@ -43,16 +44,20 @@ export class HomeDetailPage {
 				this.doorIsOpen = args.doorIsOpen
 			}
 		})
+
+		this.homes.getPersons(this.home._id).subscribe(args => {
+			this.users = args
+		})
 	}
 
-	simulatePersonAtTheDoor() {
+	simulatePersonAtTheDoor(id?: string) {
 		const loader = this.loadingCtrl.create({
 			content: 'Please wait...'
 		})
 
 		loader.present()
 
-		this.homes.notifyDoor(this.home._id).subscribe(message => {
+		this.homes.notifyDoor(this.home._id, id).subscribe(message => {
 			loader.dismiss()
 
 			this.alertCtrl.create({
@@ -89,6 +94,7 @@ export class HomeDetailPage {
 				this.homes.notifyDoor(this.home._id)
 			} else {
 				for (const person of response.persons) {
+					console.dir(person)
 					this.homes.notifyDoor(this.home._id, person._id)
 				}
 				

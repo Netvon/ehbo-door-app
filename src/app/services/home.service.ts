@@ -27,6 +27,11 @@ export class HomeService {
 		return this.http.get(`${this.baseUrl}/homes/${homeId}/live-feed`, { ...this.options }).map(res => res.json().url)
 	}
 
+	getPersons(homeId: string): Observable<any[]> {
+		return this.http.get(`${this.baseUrl}/homes/${homeId}/persons`, { ...this.options })
+			.map(res => res.json().persons)
+	}
+
 	getHomeDoorIsOpen(homeId: string): Observable<boolean> {
 		return this.http.get(`${this.baseUrl}/homes/${homeId}/door`, { ...this.options }).map(res => res.json().doorIsOpen)
 	}

@@ -21,5 +21,20 @@
   <button ion-button full (click)="simulatePersonAtTheDoorWithRecognize()">Simulate Person At the door With FaceAPI</button>
   <button ion-button full (click)="simulatePersonAtTheDoor()">Simulate Person At the door</button>
 
+<ion-card>
+  <ion-card-header>
+    Simulate Person At the door for ...
+  </ion-card-header>
+  
+  <ion-card-content>
+    <ion-list>
+      <button ion-item *ngFor="let user of users" (click)="simulatePersonAtTheDoor(user._id)">
+        {{ user.firstName }} {{ user.lastName }} <small>{{ user._id }}</small>
+      </button>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+  
+
   <pre padding>{{ home | json }}</pre>
 </ion-content>
